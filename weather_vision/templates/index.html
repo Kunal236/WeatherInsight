@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A dynamic Weather Intelligence Dashboard offering real-time weather information and 5-day forecasts.">
+    <title>Weather Intelligence</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar for Saved Cities -->
+        <aside class="sidebar glass-panel">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-cloud-sun"></i> WeatherIntel</h2>
+            </div>
+            
+            <div class="search-section">
+                <form id="search-form" class="search-form">
+                    <div class="search-input-group">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="city-search" placeholder="Search for any city..." required autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn-search">Search</button>
+                    <button type="button" id="btn-location" class="btn-icon" title="Use Current Location">
+                        <i class="fa-solid fa-location-crosshairs"></i>
+                    </button>
+                </form>
+                <div id="search-error" class="error-message hidden">City not found. Please try again.</div>
+            </div>
+
+            <div class="saved-cities-section">
+                <h3><i class="fa-solid fa-bookmark"></i> Saved Locations</h3>
+                <div id="saved-cities-list" class="cities-list">
+                    <!-- Dynamic saved cities will appear here -->
+                    <div class="loading-spinner hidden" id="favorites-loader">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div id="initial-state" class="state-container">
+                <div class="empty-state">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <h2>Welcome to WeatherIntel</h2>
+                    <p>Search for a city or use your current location to see real-time weather intelligence.</p>
+                </div>
+            </div>
+
+            <div id="loading-state" class="state-container hidden">
+                <div class="loader">
+                    <i class="fa-solid fa-cloud fa-bounce"></i>
+                    <p>Fetching atmospheric data...</p>
+                </div>
+            </div>
+
+            <div id="weather-dashboard" class="dashboard hidden">
+                <!-- Current Weather Header -->
+                <header class="dashboard-header glass-panel">
+                    <div class="location-details">
+                        <h1 id="current-city">London, UK</h1>
+                        <p id="current-date">Monday, 12 Oct</p>
+                    </div>
+                    <button id="btn-save-city" class="btn-save" title="Save to Favorites">
+                        <i class="fa-regular fa-star"></i> Save Location
+                    </button>
+                </header>
+
+                <div class="dashboard-grid">
+                    <!-- Current Weather Highlight -->
+                    <section class="current-weather glass-panel zoom-in">
+                        <div class="weather-main">
+                            <div class="weather-icon-large" id="current-icon">
+                                <i class="fa-solid fa-sun"></i>
+                            </div>
+                            <div class="temperature-display">
+                                <span id="current-temp" class="temp-value">--</span>
+                                <span class="temp-unit">°C</span>
+                            </div>
+                        </div>
+                        <h3 id="current-condition" class="condition-text">Clear Sky</h3>
+                    </section>
+
+                    <!-- Weather Details -->
+                    <section class="weather-details glass-panel slide-up">
+                        <h3>Current Conditions</h3>
+                        <div class="details-grid">
+                            <div class="detail-card">
+                                <i class="fa-solid fa-droplet detail-icon humidity-icon"></i>
+                                <div class="detail-info">
+                                    <span class="detail-label">Humidity</span>
+                                    <span id="current-humidity" class="detail-value">--%</span>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <i class="fa-solid fa-wind detail-icon wind-icon"></i>
+                                <div class="detail-info">
+                                    <span class="detail-label">Wind Speed</span>
+                                    <span id="current-wind" class="detail-value">-- km/h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 5-Day Forecast -->
+                    <section class="forecast-section glass-panel slide-up-delay">
+                        <h3>5-Day Forecast</h3>
+                        <div id="forecast-container" class="forecast-container">
+                            <!-- Forecast items dynamically filled -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
